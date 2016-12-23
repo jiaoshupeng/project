@@ -1,0 +1,268 @@
+{% extends "base.html" %}
+{% block javascript %}
+<script type="text/javascript">
+    $(document).ready(function(){
+        $("#change_data").click(function(){
+            var u_username = $("#u_username").val();
+            var u_password = $("#u_password").val();
+            var u_uid = $("#u_uid").val();
+            var u_nickname = $("#u_nickname").val();
+            var u_host = $("#u_host").val();
+            var selectValue2 = document.getElementById('is_online');
+            if (selectValue2.value == 2 && u_host == ''){
+                sweetAlert("", "域名不能为空,请重新输入", "info");
+                return false;
+            }
+            if (u_username == ''){
+                sweetAlert("", "用户名不能为空,请输入uid", "info");
+                return false;
+            }
+            if (u_password == ''){
+                sweetAlert("", "密码不能为空,请重新输入", "info");
+                return false;
+            }
+            if (u_uid == ''){
+                sweetAlert("", "uid不能为空,请输入uid", "info");
+                return false;
+            }
+            if (u_nickname == ''){
+                sweetAlert("", "昵称不能为空,请重新输入", "info");
+                return false;
+            }
+        });
+        $("#is_online").click(function(){
+            var selectValue = document.getElementById('is_online');
+            if (selectValue.value == 2){
+               $("#u_host").show();
+            }
+            else
+            {
+               $("#u_host").hide();
+            }
+
+        });
+        $("#run").click(function(){
+{#            $("#loading").show();#}
+            var groups = document.getElementById('inlineCheckbox1').checked;
+            var users = document.getElementById('inlineCheckbox2').checked;
+            var ticktocks = document.getElementById('inlineCheckbox3').checked;
+            var blued = document.getElementById('inlineCheckbox4').checked;
+            var h5 = document.getElementById('inlineCheckbox5').checked;
+            var pay = document.getElementById('inlineCheckbox6').checked;
+            {% if query_online == 0 %}
+                var passport = document.getElementById('inlineCheckbox7').checked;
+            {% else %}
+                var passport = false;
+            {% endif %}
+            if(groups==false && users ==false && ticktocks ==false && blued == false && h5==false && pay==false && passport ==false){
+                sweetAlert("", "大哥,好歹你也选一个啊", "info");
+                return false;
+            }
+        });
+    });
+</script>
+{% endblock %}
+{% block main %}
+        <div id="page-wrapper">
+
+            <div class="container-fluid" >
+
+                <!-- Page Heading -->
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h3 class="page-header">
+                            Server Automation
+                        </h3>
+                        <ol class="breadcrumb">
+                            <li>
+                                <i class="fa fa-dashboard"></i>  <a href="../index">Dashboard</a>
+                            </li>
+                            <li class="active">
+                                <i class="fa fa-table"></i> Server Automation
+                            </li>
+{#                            <li>#}
+                            <form method="get">
+                                <input name="clean_data" class="btn btn-default" style="float: right;margin-top: -28px;" type="submit" value="清空数据"/>
+                            </form>
+                        </ol>
+                    </div>
+                </div>
+                <div class="row" style="display: {{ table_style }}">
+                    <div class = "col-lg-6">
+                        <form method="get">
+                            <b>选择接口模块:</b>
+                            <br>
+                            <label class="checkbox-inline" style="margin-top: 3%;margin-bottom: 1%">
+                              <input type="checkbox" id="inlineCheckbox1" name= 'groups' value="groups"> groups
+                            </label>
+                            <label class="checkbox-inline" style="margin-top: 3%;margin-bottom: 1%; {% if query_online == 0 %}margin-left: 1.5%{% else %}margin-left: 5%{% endif %}">
+                              <input type="checkbox" id="inlineCheckbox2" name="users" value="users"> users
+                            </label>
+                            <label class="checkbox-inline" style="margin-top: 3%;margin-bottom: 1%;{% if query_online == 0 %}margin-left: 1.5%{% else %}margin-left: 5%{% endif %}">
+                              <input type="checkbox" id="inlineCheckbox3" name="ticktocks" value="ticktocks"> ticktocks
+                            </label>
+                            <label class="checkbox-inline" style="margin-top: 3%;margin-bottom: 1%;{% if query_online == 0 %}margin-left: 1.5%{% else %}margin-left: 5%{% endif %}">
+                              <input type="checkbox" id="inlineCheckbox4" name="blued" value="blued"> blued
+                            </label>
+                            <label class="checkbox-inline" style="margin-top: 3%;margin-bottom: 1%;{% if query_online == 0 %}margin-left: 1.5%{% else %}margin-left: 5%{% endif %}">
+                              <input type="checkbox" id="inlineCheckbox5" name="h5" value="h5"> H5
+                            </label>
+                            <label class="checkbox-inline" style="margin-top: 3%;margin-bottom: 1%;{% if query_online == 0 %}margin-left: 1.5%{% else %}margin-left: 5%{% endif %}">
+                              <input type="checkbox" id="inlineCheckbox6" name="pay" value="pay"> pay
+                            </label>
+                            {% if query_online == 0 %}
+                            <label class="checkbox-inline" style="margin-top: 3%;margin-bottom: 1%;margin-left: 1%">
+                              <input type="checkbox" id="inlineCheckbox7" name="passport" value="passport"> passport
+                            </label>
+                            {% endif %}
+{#                            <br>#}
+                            <input name="run" id="run" class="btn btn-primary btn-block" style="align-content: right;margin-top: 10px;" type="submit" value="run"/>
+                        </form>
+                    </div>
+                    <div class = "col-lg-6">
+                        <form method="get">
+                            <b>接口详情:</b>
+                            <br>
+                            <div style="margin-top: 3%;">
+                                <font style="color: #9A999F;margin-top: 40px">
+                                    <b>运行环境:</b>&nbsp;&nbsp;{{ environment }}
+                                    <b style="margin-left: 8%;">用户:</b>&nbsp;&nbsp;{{ query_username }}
+                                    <div style="display: {{ uid_style }}">
+                                    <b style="margin-left: 8%;">uid:</b>&nbsp;&nbsp;{{ query_uid }}
+                                    </div>
+                                </font>
+                                <input name="btn_select" id="btn_select" class="btn btn-primary btn-block" style="align-content: right;margin-top: 14px;" type="submit" value="更改配置"/>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="row" style="display: {{ table_style }};min-height: 350px">
+                    <div class="col-lg-12" style="margin-top: 20px">
+{#                        <h4 class="well">Contextual Classes</h4>#}
+                        <div class="table-responsive">
+                            <table class="table table-hover table-striped" style="height:10px;">
+                                <thead>
+                                {% if none_data != 0 %}
+                                    <tr>
+{#                                        <th class="col-lg-1" style="text-align: center">#</th>#}
+                                        <th class = 'col-lg-2' style="text-align: center">端口</th>
+                                        <th class = 'col-lg-4' style="text-align: center;">接口</th>
+                                        <th class = 'col-lg-1' style="text-align: center">结果</th>
+{#                                        <th class = 'col-lg-2' style="text-align: center">模块</th>#}
+                                        <th class = 'col-lg-2' style="text-align: center">用例</th>
+{#                                        <th class = 'col-lg-1' style="text-align: center">提醒</th>#}
+                                        <th class = 'col-lg-1' style="text-align: center">时间</th>
+                                        <th class = 'col-lg-1' style="text-align: center;">操作</th>
+                                    </tr>
+                                </thead>
+                                {% endif %}
+                                <tbody>
+                                    {% for show in atserverlist.object_list %}
+                                        <tr {% if show.result == 0 %}class="danger"{% else %}class="active"{% endif %}>
+                                            <div>
+{#                                                <td style="text-align: center">{{ show.id }}</td>#}
+                                                <td style="text-align: center">{{ show.host }}</td>
+                                                <td>
+                                                    <div style="position:relative;width: 300px;height:auto; overflow-x:auto">
+                                                    {{ show.interface }}
+                                                    </div>
+                                                </td>
+                                                <td style="text-align: center">{{ show.result_describe }}</td>
+{#                                                <td style="text-align: center">{{ show.module }}</td>#}
+                                                <td style="text-align: left;">
+                                                    <div style="position:relative;width: 200px;max-height: 40px; overflow-x:auto">
+                                                   {{ show.casename }}
+                                                    </div>
+                                                </td>
+{#                                                <td style="text-align: center">{{ show.notice_describe }}</td>#}
+                                                <td style="text-align: center;">
+                                                    <div style="position:relative;width: 150px;height:auto;; overflow-x:auto">
+                                                        {{ show.time }}
+                                                    </div>
+                                                </td>
+                                                <td style="text-align: center;">
+                                                    <a href="../detail/?id={{ show.id }}">详情</a>
+{#                                                    <div style="position:relative;width: 200px;height:auto;; overflow-x:auto">#}
+{#                                                        {{ show.creatdate }}#}
+{#                                                    </div>#}
+                                                </td>
+
+                                            </div>
+                                        </tr>
+                                    {% empty %}
+                                    <div class="col-lg-12">
+                                        <b class="col-lg-12" style="text-align: center;margin-top: 30px;">
+                                            <img src="../../qa/static/images/none.jpg">
+                                        </b>
+                                    </div>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                            {% if none_data != 0 %}
+                            <div class="row col-lg-12" style="text-align: center">
+                                <span class="step-links">
+                                    <ul class="pager">
+                                     {% if atserverlist.has_previous %}
+                                     <li class="prev">
+                                         <a href="?page={{ atserverlist.previous_page_number }}" class="previous">上一页</a>
+                                     </li>
+                                     {% endif %}
+                                     第 {{ atserverlist.number }}/{{ atserverlist.paginator.num_pages }} 页
+                                     {% if atserverlist.has_next %}
+                                         <li class="prev">
+                                             <a href="?page={{ atserverlist.next_page_number }}">下一页</a>
+                                         </li>
+                                     {% endif %}
+                                        <li class="next"><a>共{{ atserver.count }}条</a></li>
+                                    </ul>
+                                </span>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row" style="display: {{ config_style }};">
+                <div class="col-lg-3">
+                </div>
+                <div class="col-lg-6">
+                    <h4 style="text-align: center">修改运行配置</h4>
+                    <form method="get">
+                        <select name="is_online" id="is_online" class="form-control" style="width: 100%;margin-top: 1%;width: 70%;margin-left: 15%;">
+                            <option value=1>线上环境</option>
+                            <option value=0>测试环境</option>
+                            <option value=2>Other</option>
+                        </select>
+                        <p>
+                            <input class="form-control" type="text" name="u_host" id="u_host" placeholder="HOST" style="margin-top: 5%;width: 70%;margin-left: 15%;display: none"/>
+                            <input class="form-control" type="text" name="u_username" id="u_username" placeholder="用户名" style="margin-top: 5%;width: 70%;margin-left: 15%;"/>
+                            <input class="form-control" type="text" name="u_password" id="u_password" placeholder="密码" style="margin-top: 5%;width: 70%;margin-left: 15%;"/>
+                            <input class="form-control" type="text" name="u_uid" id="u_uid" placeholder="uid" style="margin-top: 5%;width: 70%;margin-left: 15%;"/>
+                            <input class="form-control" type="text" name="u_nickname" id="u_nickname" placeholder="昵称" style="margin-top: 5%;width: 70%;margin-left: 15%;"/>
+                        </p>
+                        <input name="change_data" id="change_data" class="form-control btn btn-primary" type="submit" value="修改" style="margin-bottom: 30%;margin-top: 3%;width: 70%;margin-left: 15%;"/>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    <script src="../static/js/jquery.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="../static/js/bootstrap.min.js"></script>
+
+    <!-- Morris Charts JavaScript -->
+    <script src="../static/js/plugins/morris/raphael.min.js"></script>
+    <script src="../static/js/plugins/morris/morris.min.js"></script>
+    <script src="../static/js/plugins/morris/morris-data.js"></script>
+    <script src="../static/js/sweet-alert.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="../static/css/sweet-alert.css">
+
+    <!-- Flot Charts JavaScript -->
+    <!--[if lte IE 8]><script src="js/excanvas.min.js"></script><![endif]-->
+    <script src="../static/js/plugins/flot/jquery.flot.js"></script>
+    <script src="../static/js/plugins/flot/jquery.flot.tooltip.min.js"></script>
+    <script src="../static/js/plugins/flot/jquery.flot.resize.js"></script>
+    <script src="../static/js/plugins/flot/jquery.flot.pie.js"></script>
+    <script src="../static/js/plugins/flot/flot-data.js"></script>
+{% endblock %}

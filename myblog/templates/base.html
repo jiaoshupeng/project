@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Jhon的博客</title>
+    {% load staticfiles %}
+    <link rel="shortcut icon" href="/static/img/favicon.ico"/>
+    <link rel="bookmark" href="/static/img/favicon.ico"/>
+    <link rel="stylesheet" href={% static "bootstrap/css/bootstrap.min.css" %}>
+    <link rel="stylesheet" href={% static "css/blog.css"%}>
+{#    <link rel="stylesheet" href={% static "css/vmaig_comments.css"%}>#}
+{#    <link rel="stylesheet" href="../blog/static/css/vmaig_auth.css">#}
+    <link href={% static "jquery/jquery.Jcrop.min.css" %}>
+{##}
+    <script src={% static "jquery/jquery-2.1.3.min.js" %}></script>
+    <script src={% static "js/blog.js" %}></script>
+    <script src={% static "jquery/jquery.cookie.js" %}></script>
+    <script src={% static "jquery/jquery.form.js" %}></script>
+    <script src={% static "jquery/jquery.Jcrop.min.js" %}></script>
+    <script src={% static "bootstrap/js/bootstrap.min.js" %}></script>
+    {% block css%} {% endblock%}
+</head>
+<body>
+<!--设置导航栏-->
+{% include 'include/navbar.html' %}
+
+<div class="blog-main">
+    <div id="blog-content" class="container" style="margin-bottom: 5%">
+            {% block main %} {% endblock %}
+    </div>
+    <footer>
+       <div class="container">
+           <p class="text-center footer-text">©2017 <a href="#">使用前必读&nbsp;&nbsp;</a> <a href="#">意见反馈</a>&nbsp;&nbsp;京ICP证030173号 </p>
+       </div>
+    </footer>
+</div>
+{% block js%}{% endblock%}
+</body>
+</html>

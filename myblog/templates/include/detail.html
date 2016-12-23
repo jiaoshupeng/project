@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+{% block javascript %}
+<script type="text/javascript">
+    $(function () {
+        $('#myModal').modal('hide')
+    });
+</script>
+{% endblock %}
+{% block main %}
+        <div id="page-wrapper">
+
+            <div class="container-fluid">
+
+                <!-- Page Heading -->
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h3 class="page-header">
+                            Interface Detail
+                        </h3>
+                        <ol class="breadcrumb">
+                            <li>
+                                <i class="fa fa-dashboard"></i>  <a href="../index">Dashboard</a>
+                            </li>
+                            <li class="active">
+                                <i class="fa fa-table"></i> Interface Detail
+                            </li>
+                            <a  href="http://json.cn"  style="float: right;" target="_blank">JSON格式化</a>
+                        </ol>
+                    </div>
+                </div>
+                <div class="row" style="min-height: 500px">
+                    <div class="col-lg-2"></div>
+                    <div class = "col-lg-8">
+                        {% for value in data %}
+                            <div style="margin-bottom: 2%">
+                                <center>
+                                    <font style="color:cornflowerblue;font-size: 16pt;">
+                                        -------------接口详情-------------
+                                    </font>
+                                </center>
+                            </div>
+                            <div style="width: auto">
+                            <p>
+                               <b>登录用户:&nbsp;&nbsp;</b>{{ value.request_id }}
+                                <b style="margin-left: 33%">用户名称:&nbsp;&nbsp;</b>{{ value.response_time }}
+                            </p>
+                            <p>
+                               <b>用户UID:&nbsp;&nbsp;</b>{{ value.request_time }}
+                                <b style="margin-left: 41.5%">运行结果:&nbsp;&nbsp;</b>{{ value.result_describe }}
+                            </p>
+                            <p>
+                               <b>HOST:&nbsp;&nbsp;</b>{{ value.host }}
+                                <b style="margin-left: 32.5%">运行时间:&nbsp;&nbsp;</b>{{ value.time }}
+                            </p>
+                            <p style="position:relative;width: 100%;height:auto;; overflow-x:auto">
+                               <b>接口:&nbsp;&nbsp;</b>{{ value.interface }}
+                            </p>
+
+                            <p>
+                               <b>接口模块:&nbsp;&nbsp;</b>{{ value.module }}
+                            </p>
+                            <p>
+                                <b>用例名称:&nbsp;&nbsp;</b>{{ value.casename }}
+                            </p>
+                            <div style="text-align: left">
+                                <p style="position:relative;width: 100%;height:auto;; overflow-x:auto">
+
+                                   <b>接口返回数据:</b><br>
+                                    <textarea class="form-control" style="width: 100%;min-height: 300px;margin-top: 2%; disabled: disabled">
+                                        {{ value.data }}
+                                    </textarea>
+                                </p>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    <script src="../../qa/static/js/jquery.js"></script>
+    <script src="../../qa/static/js/bootstrap.min.js"></script>
+{% endblock %}
